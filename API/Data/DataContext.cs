@@ -1,14 +1,26 @@
 using API.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Data
 {
-    public class DataContext : DbContext
+    public class DataContext : IdentityDbContext
     {
         public DataContext(DbContextOptions options) : base(options)
         {
         }
 
-        public DbSet<AppUser> Users { get; set; }
+        public DbSet<TaskTodo> Tasks { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.Entity<TaskTodo>()
+                .HasOne(x => x.Creator)
+                .WithMany(t => t.TasksTodo)
+                .OnDelete(DeleteBehavior.Restrict); // no cascade deletion
+        }
+
     }
 }

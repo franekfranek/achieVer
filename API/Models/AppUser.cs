@@ -1,10 +1,19 @@
+using System;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
+
 namespace API.Models
 {
-    public class AppUser
+    public class AppUser : IdentityUser
     {
-        public int Id { get; set; }
-        public string UserName { get; set; }
-        public string Email { get; set; }
+		public DateTime DateOfBirth { get; set; }
+		public string KnownAs { get; set; }
+		public DateTime Created { get; set; }
+		public DateTime LastActive { get; set; }
+        public string IpAdress { get; set; }
+		public string City { get; set; }
+
+        public virtual ICollection<TaskTodo> TasksTodo { get; set; }
         
     }
 }
