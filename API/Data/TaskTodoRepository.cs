@@ -7,7 +7,8 @@ using Microsoft.EntityFrameworkCore;
 namespace API.Data
 {
     public class TaskTodoRepository : ITaskTodoRepository
-        private readonly DataContext _context;
+    {   
+         private readonly DataContext _context;
 
         public TaskTodoRepository(DataContext context)
         {

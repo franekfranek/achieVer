@@ -1,19 +1,27 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using API.Data;
+using API.Extensions;
+using API.Helpers;
 using API.Interfaces;
 using API.Models;
+using API.Services;
+using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 namespace API
@@ -30,19 +38,11 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // addIdentity is for Razor pages core is for SPA
-            services.AddIdentityCore<AppUser>(opt =>
-            {
-                opt.Password.RequireNonAlphanumeric = false;        
-            })
-            .AddEntityFrameworkStores<DataContext>();
+            //Add singleton(whole app time)/scoped(of scope of http request)/transient(as soon as method is finished) are just way of telling our application how long we want servcices to last 
+            
+            
 
-            services.AddDbContext<DataContext>(options => {
-                options.UseSqlServer(_configuration.GetConnectionString("AchieverContextConnection"));
-
-            });
-
-            services.AddScoped<ITaskTodoRepository, TaskTodoRepository>();
+            services.AddApplicationServices(_configuration);
             services.AddControllers();
 
             services.AddSwaggerGen(c =>
@@ -60,6 +60,8 @@ namespace API
                     .SetIsOriginAllowed((host) => true)
                     .AllowCredentials());
             });
+
+            services.AddIdentityServices(_configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -77,6 +79,8 @@ namespace API
             app.UseRouting();
 
             app.UseCors("CorsPolicy");
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

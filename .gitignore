@@ -37,8 +37,9 @@ bld/
 wwwroot/
 
 Migrations/
-
+appsettings.Development.json
 appsettings.json
+
 
 # Visual Studio 2017 auto generated files
 Generated\ Files/

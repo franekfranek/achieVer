@@ -12,8 +12,10 @@ namespace API.Models
 		public DateTime LastActive { get; set; }
         public string IpAdress { get; set; }
 		public string City { get; set; }
+        public string Token { get; set; }
 
         public virtual ICollection<TaskTodo> TasksTodo { get; set; }
+        public ICollection<AppUserRole> UserRoles { get; set; } 
         
     }
 }
