@@ -1,0 +1,16 @@
+<div class="container mt-5">
+    <div *ngIf="!registerMode" style="text-align: center;">
+        <h1>Find your match</h1>
+        <p class="lead">Add new task to productive</p>
+        <div class="text-center">
+            <button class="btn btn-primary btn-lg mr-2" (click)="registerToggle()">Register</button>
+            <button class="btn btn-info btn-lg">Whatever</button>
+        </div>
+    </div> 
+
+    <div class="container"  *ngIf="registerMode">
+        <div class="row justify-content-center">
+            <app-register (cancelRegister)="cancelRegisterMode($event)"></app-register>
+        </div>
+    </div>
+</div>

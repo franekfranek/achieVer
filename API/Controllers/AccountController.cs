@@ -47,10 +47,10 @@ namespace API.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginDto userForLoginDto)
         {
-            var userReturn = await _userManager.FindByNameAsync(userForLoginDto.UserName);
+            var userReturn = await _userManager.FindByNameAsync(userForLoginDto?.UserName);
 
             var result = await _singnInManager
-                                    .CheckPasswordSignInAsync(userReturn, userForLoginDto.Password, false);
+                                    .CheckPasswordSignInAsync(userReturn, userForLoginDto?.Password, false);
 
             userReturn.Token = _tokenService.CreateToken(userReturn);
 
@@ -62,7 +62,7 @@ namespace API.Controllers
                 });
             }
 
-            return Unauthorized();
+            return Unauthorized("Invalid passoword or login");
         }
 
     }
